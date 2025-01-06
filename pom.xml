@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.n11</groupId>
+    <artifactId>n11-load-test</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jmeter.version>5.5</jmeter.version>
+        <jmeter-plugins.version>1.7</jmeter-plugins.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.lazerycode.jmeter</groupId>
+                <artifactId>jmeter-maven-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <testFilesDirectory>${project.basedir}/src/test/jmeter</testFilesDirectory>
+                    <resultsDirectory>${project.build.directory}/jmeter/results</resultsDirectory>
+                    <generateReports>true</generateReports>
+                    
+                    <!-- JMeter özellikleri -->
+                    <propertiesUser>
+                        <jmeter.save.saveservice.output_format>csv</jmeter.save.saveservice.output_format>
+                        <jmeter.save.saveservice.timestamp>true</jmeter.save.saveservice.timestamp>
+                        <jmeter.save.saveservice.label>true</jmeter.save.saveservice.label>
+                        <jmeter.save.saveservice.response_code>true</jmeter.save.saveservice.response_code>
+                        <jmeter.save.saveservice.response_message>true</jmeter.save.saveservice.response_message>
+                        <jmeter.save.saveservice.successful>true</jmeter.save.saveservice.successful>
+                        <jmeter.save.saveservice.thread_name>true</jmeter.save.saveservice.thread_name>
+                        <jmeter.save.saveservice.time>true</jmeter.save.saveservice.time>
+                        <jmeter.save.saveservice.latency>true</jmeter.save.saveservice.latency>
+                        <jmeter.save.saveservice.bytes>true</jmeter.save.saveservice.bytes>
+                        <jmeter.save.saveservice.thread_counts>true</jmeter.save.saveservice.thread_counts>
+                        <jmeter.save.saveservice.assertion_results>true</jmeter.save.saveservice.assertion_results>
+                        
+                        <!-- Console Logger ayarları -->
+                        <log_level.jmeter>INFO</log_level.jmeter>
+                        <summariser.name>summary</summariser.name>
+                        <summariser.interval>30</summariser.interval>
+                        <summariser.log>true</summariser.log>
+                        <summariser.out>true</summariser.out>
+                        
+                        <!-- Detaylı log ayarları -->
+                        <jmeter.save.saveservice.print_field_names>true</jmeter.save.saveservice.print_field_names>
+                        <jmeter.save.saveservice.successful>true</jmeter.save.saveservice.successful>
+                        <jmeter.save.saveservice.label>true</jmeter.save.saveservice.label>
+                        <jmeter.save.saveservice.response_code>true</jmeter.save.saveservice.response_code>
+                        <jmeter.save.saveservice.response_message>true</jmeter.save.saveservice.response_message>
+                        <jmeter.save.saveservice.response_data>false</jmeter.save.saveservice.response_data>
+                        <jmeter.save.saveservice.sub_results>false</jmeter.save.saveservice.sub_results>
+                        <jmeter.save.saveservice.assertions>true</jmeter.save.saveservice.assertions>
+                        <jmeter.save.saveservice.latency>true</jmeter.save.saveservice.latency>
+                        <jmeter.save.saveservice.bytes>true</jmeter.save.saveservice.bytes>
+                        <jmeter.save.saveservice.hostname>true</jmeter.save.saveservice.hostname>
+                        <jmeter.save.saveservice.thread_counts>true</jmeter.save.saveservice.thread_counts>
+                        <jmeter.save.saveservice.sample_count>true</jmeter.save.saveservice.sample_count>
+                        <jmeter.save.saveservice.timestamp_format>HH:mm:ss</jmeter.save.saveservice.timestamp_format>
+                    </propertiesUser>
+
+                    <!-- JMeter Plugins -->
+                    <jmeterExtensions>
+                        <artifact>kg.apc:jmeter-plugins-manager:${jmeter-plugins.version}</artifact>
+                        <artifact>kg.apc:jmeter-plugins-graphs-basic:2.0</artifact>
+                        <artifact>kg.apc:jmeter-plugins-graphs-additional:2.0</artifact>
+                    </jmeterExtensions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>configuration</id>
+                        <goals>
+                            <goal>configure</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jmeter-tests</id>
+                        <goals>
+                            <goal>jmeter</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/jmeter/testFiles</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/test/resources</directory>
+                                    <includes>
+                                        <include>**/*.csv</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project> 
